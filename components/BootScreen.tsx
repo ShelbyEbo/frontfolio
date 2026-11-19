@@ -66,7 +66,7 @@ export function BootScreen() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <PixelSprite grid={[...SPRITES.heart]} palette={{ X: '#FF6B35', W: '#FFD9C4' }} size={5} />
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.4rem', letterSpacing: '-.04em' }}>
-          dev<span style={{ color: '#FF6B35' }}>.</span>
+          Mel<span style={{ color: '#FF6B35' }}>.</span>
         </span>
       </div>
 
