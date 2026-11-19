@@ -1,0 +1,76 @@
+.dt-wrap {
+  position: relative; z-index: 1;
+  max-width: 1320px; margin: 0 auto;
+  padding: 100px 5% 80px;
+}
+.dt-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.dt-crumb { font-size: .68rem; color: var(--txt2); }
+
+.dt-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.75rem; }
+.dt-icon { width: 46px; height: 46px; flex-shrink: 0; display: grid; place-items: center; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--shadow); }
+.dt-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1; letter-spacing: -.045em;
+  overflow-wrap: anywhere;
+}
+
+.dt-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, .9fr); gap: 2rem; align-items: start; }
+
+.dt-screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(var(--grid-dot) 1px, transparent 1.2px) 0 0 / 14px 14px,
+    color-mix(in srgb, var(--pc) 10%, var(--bg2));
+  overflow: hidden;
+}
+.dt-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; cursor: zoom-in; animation: fadeUp .45s var(--ease) both; }
+.dt-screen.is-portrait .dt-img { object-fit: contain; padding: 18px; }
+.dt-arrow { position: absolute; top: 50%; transform: translateY(-50%); }
+.dt-arrow:hover { transform: translateY(calc(-50% - 1px)); }
+.dt-go-prev { left: 14px; }
+.dt-go-next { right: 14px; }
+.dt-full { position: absolute; right: 14px; bottom: 14px; }
+
+.dt-thumbs { display: flex; gap: 8px; padding: 10px; border-top: 2px solid var(--ink); background: var(--card2); overflow-x: auto; }
+.dt-thumbs button { flex-shrink: 0; width: 72px; height: 46px; padding: 0; border: 2px solid var(--line); background: var(--bg2); cursor: pointer; overflow: hidden; opacity: .6; transition: opacity .15s, border-color .15s; }
+.dt-thumbs button.on, .dt-thumbs button:hover { opacity: 1; border-color: var(--accent); }
+.dt-thumbs img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+
+.dt-side { display: flex; flex-direction: column; gap: 1.5rem; }
+.dt-card { padding: 1.4rem; }
+.dt-desc { color: var(--txt2); line-height: 1.8; font-size: 1rem; margin-bottom: 1.4rem; }
+.dt-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+.dt-sheet-title { font-size: .7rem; color: var(--accent); margin-bottom: 1rem; }
+.dt-sheet { display: grid; gap: .6rem; margin-bottom: 1.2rem; }
+.dt-sheet > div { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: .6rem; border-bottom: 2px dashed var(--line); }
+.dt-sheet dt { font-size: .64rem; color: var(--txt2); }
+.dt-sheet dd { font-weight: 600; font-size: .92rem; }
+.dt-sheet dd.ok { color: var(--cold); }
+.dt-sheet dd.off { color: var(--txt2); }
+.dt-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+.dt-next {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .25rem 1rem;
+  padding: 1.1rem 1.3rem;
+  color: var(--txt); text-decoration: none;
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.dt-next .pixel { grid-column: 1; font-size: .62rem; color: var(--txt2); }
+.dt-next b { grid-column: 1; font-family: var(--font-display); font-size: 1.15rem; letter-spacing: -.02em; }
+.dt-next svg { grid-column: 2; grid-row: 1 / span 2; color: var(--accent); }
+.dt-next:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--shadow); }
+
+.dt-modal {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(23,16,11,.9);
+  display: grid; place-items: center; padding: 24px;
+  cursor: zoom-out;
+  animation: fadeUp .2s var(--ease) both;
+}
+.dt-modal img { max-width: min(96vw, 1600px); max-height: 90vh; object-fit: contain; border: 2px solid #5A4330; box-shadow: 8px 8px 0 #000; cursor: default; }
+.dt-close { position: fixed; top: 18px; right: 18px; }
+
+@media (max-width: 960px) { .dt-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .dt-wrap { padding: 84px 16px 64px; } }

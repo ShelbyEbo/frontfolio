@@ -1,0 +1,349 @@
+@import "tailwindcss";
+@import "flag-icons/css/flag-icons.min.css";
+
+@variant dark (&:where(.dark, .dark *));
+
+/* ════════════════════════════════════════════════════════════
+   THEME TOKENS
+   Paleta: bege + castanho (base quente), laranja (assinatura),
+   ciano diamante (cor fria) + verde relva — paleta de mundo de blocos.
+   ════════════════════════════════════════════════════════════ */
+:root {
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --transition: .45s var(--ease);
+
+  --font-pixel: 'Silkscreen', ui-monospace, monospace;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans Variable', 'DM Sans', system-ui, sans-serif;
+
+  /* ── ESPRESSO (dark) ── */
+  --bg:      #17100B;
+  --bg2:     #20170F;
+  --card:    #261B13;
+  --card2:   #2F2218;
+  --txt:     #F3E7D3;
+  --txt2:    #B9A48B;
+  --line:    #3B2B1E;
+  --ink:     #5A4330;          /* borda "pixel" */
+  --shadow:  #070403;          /* sombra dura */
+
+  --accent:      #FF6B35;      /* laranja */
+  --accent-ink:  #FFB089;
+  --accent-soft: rgba(255,107,53,.14);
+  --cold:        #4FD8E3;      /* ciano diamante */
+  --cold-soft:   rgba(79,216,227,.13);
+  --brown:       #C08457;
+  --olive:       #7CC04B;      /* verde relva */
+  --grass:       #6DB33F;
+  --grass-dk:    #4A8A28;
+  --dirt:        #8B5A3C;
+  --dirt-dk:     #6B4229;
+
+  --invert-bg:  #F1E6D2;       /* bloco invertido (contacto) */
+  --invert-txt: #2A1C13;
+  --invert-txt2:#6E5848;
+
+  --nav-bg: rgba(23,16,11,.82);
+  --grid-dot: rgba(243,231,211,.07);
+  --scan: rgba(0,0,0,.18);
+
+  /* aliases para código antigo */
+  --stroke: var(--line);
+  --accent2: var(--cold);
+}
+
+/* ── BEGE (light) ── */
+html.light {
+  --bg:      #F1E6D2;
+  --bg2:     #E9DBC2;
+  --card:    #FBF5EA;
+  --card2:   #F5EBDA;
+  --txt:     #2A1C13;
+  --txt2:    #6E5848;
+  --line:    #DCCBAE;
+  --ink:     #2A1C13;
+  --shadow:  #2A1C13;
+
+  --accent:      #EC5A26;
+  --accent-ink:  #B03F14;
+  --accent-soft: rgba(236,90,38,.12);
+  --cold:        #0B7C8A;
+  --cold-soft:   rgba(20,170,190,.12);
+  --brown:       #7A4A2E;
+  --olive:       #4E8F2A;
+  --grass:       #5FA834;
+  --grass-dk:    #3F7A1F;
+  --dirt:        #8B5A3C;
+  --dirt-dk:     #6B4229;
+
+  --invert-bg:  #2A1C13;
+  --invert-txt: #F3E7D3;
+  --invert-txt2:#BFA88E;
+
+  --nav-bg: rgba(241,230,210,.84);
+  --grid-dot: rgba(42,28,19,.10);
+  --scan: rgba(42,28,19,.05);
+}
+
+/* ════════════════════════════════════════════════════════════
+   RESET / BASE
+   ════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--txt);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--transition), color var(--transition);
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px dashed var(--cold);
+  outline-offset: 4px;
+}
+
+/* textura: grelha de pontos + scanlines CRT muito subtis */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 200; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, var(--scan) 2px 3px);
+  mix-blend-mode: multiply;
+  opacity: .55;
+}
+
+/* ════════════════════════════════════════════════════════════
+   TIPOGRAFIA
+   ════════════════════════════════════════════════════════════ */
+.pixel {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  -webkit-font-smoothing: none;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1;
+}
+
+.section-label {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--font-pixel);
+  font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.section-label .num {
+  background: var(--accent); color: #fff;
+  padding: 2px 6px 1px;
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+  letter-spacing: -.04em;
+  line-height: 1.02;
+  color: var(--txt);
+  margin-bottom: 1rem;
+}
+.section-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+.section-intro {
+  color: var(--txt2);
+  max-width: 56ch;
+  font-size: 1.05rem;
+  margin-bottom: 3rem;
+}
+
+/* ════════════════════════════════════════════════════════════
+   COMPONENTES BASE (retro / pixel)
+   ════════════════════════════════════════════════════════════ */
+
+/* Botão com sombra dura — afunda ao clicar, como um botão de arcade */
+.btn {
+  --b-bg: var(--card);
+  --b-fg: var(--txt);
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  padding: .85rem 1.4rem;
+  font-family: var(--font-pixel);
+  font-size: .8rem; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--b-fg);
+  background: var(--b-bg);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .12s var(--ease), box-shadow .12s var(--ease), background .2s;
+  user-select: none;
+}
+.btn:hover  { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--shadow); }
+.btn:active { transform: translate(4px,4px);   box-shadow: 0 0 0 var(--shadow); }
+.btn-primary { --b-bg: var(--accent); --b-fg: #fff; }
+.btn-cold    { --b-bg: var(--cold);   --b-fg: #fff; }
+.btn-sm { padding: .5rem .8rem; font-size: .68rem; box-shadow: 3px 3px 0 var(--shadow); }
+.btn-sm:hover { box-shadow: 4px 4px 0 var(--shadow); }
+
+/* Painel com borda "pixel" */
+.panel {
+  position: relative;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+.panel-soft {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+}
+
+/* Barra de janela retro */
+.window-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  padding: .5rem .75rem;
+  border-bottom: 2px solid var(--ink);
+  background: var(--card2);
+  font-family: var(--font-pixel);
+  font-size: .68rem; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--txt2);
+}
+.window-dots { display: flex; gap: 5px; }
+.window-dots i { width: 9px; height: 9px; display: block; border: 1.5px solid var(--ink); }
+.window-dots i:nth-child(1) { background: var(--accent); }
+.window-dots i:nth-child(2) { background: var(--olive); }
+.window-dots i:nth-child(3) { background: var(--cold); }
+
+/* Moldura com cantos em degrau (pixel) */
+.px-corners {
+  clip-path: polygon(
+    0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0,
+    calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%,
+    8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px)
+  );
+}
+
+/* Tag / chip */
+.chip {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: 3px 8px 2px;
+  font-family: var(--font-pixel);
+  font-size: .62rem; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--txt2);
+  background: var(--bg2);
+  border: 1.5px solid var(--line);
+}
+
+/* Barra de progresso em blocos */
+.blocks {
+  height: 12px;
+  border: 2px solid var(--ink);
+  background: var(--bg2);
+  padding: 2px;
+}
+.blocks > span {
+  display: block; height: 100%;
+  background: repeating-linear-gradient(90deg, var(--fill, var(--accent)) 0 8px, transparent 8px 10px);
+}
+
+/* ════════════════════════════════════════════════════════════
+   LAYOUT
+   ════════════════════════════════════════════════════════════ */
+.section-wrap {
+  position: relative;
+  padding: 120px 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ════════════════════════════════════════════════════════════
+   ANIMAÇÕES
+   ════════════════════════════════════════════════════════════ */
+@keyframes blink   { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+@keyframes float   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes stepIn  { from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0 0 0)} }
+@keyframes popIn   { 0%{transform:scale(.6);opacity:0} 70%{transform:scale(1.06)} 100%{transform:scale(1);opacity:1} }
+
+.anim-fadeUp { animation: fadeUp .8s var(--ease) both; }
+.anim-blink  { animation: blink 1s step-end infinite; }
+.anim-float  { animation: float 4s steps(8) infinite; }
+
+.delay-1 { animation-delay: .1s; }
+.delay-2 { animation-delay: .2s; }
+.delay-3 { animation-delay: .3s; }
+.delay-4 { animation-delay: .45s; }
+.delay-7 { animation-delay: .7s; }
+
+/* revelar ao fazer scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.rd1 { transition-delay: .08s; }
+.rd2 { transition-delay: .16s; }
+.rd3 { transition-delay: .24s; }
+.rd4 { transition-delay: .32s; }
+
+/* ════════════════════════════════════════════════════════════
+   ECRÃ DE ARRANQUE (boot)
+   ════════════════════════════════════════════════════════════ */
+html.booted .boot { display: none; }
+
+/* ════════════════════════════════════════════════════════════
+   MISC
+   ════════════════════════════════════════════════════════════ */
+.fi { border-radius: 2px; }
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ── Pixel art nítida ── */
+.pixelated { image-rendering: pixelated; image-rendering: crisp-edges; }
+
+/* topo de bloco de relva para painéis */
+.grass-top { position: relative; }
+.grass-top::before {
+  content: ''; position: absolute; left: -2px; right: -2px; top: -2px; height: 10px; z-index: 1;
+  background:
+    linear-gradient(to bottom, var(--grass) 0 6px, transparent 6px),
+    repeating-linear-gradient(90deg, var(--grass) 0 6px, transparent 6px 12px, var(--grass-dk) 12px 18px, transparent 18px 24px);
+  border: 2px solid var(--ink); border-bottom: none;
+}
